@@ -49,7 +49,7 @@ public class CustomerService
         return updateMobileNumber;
     }
 
-    public async Task<string> Create(CustomerRequestBody customer)
+    public async Task<string> CreateConsumer(CustomerRequestBody customer)
     {
         var entity = CustomerModel.ToEntity(customer);
         var newCustomer = await _customerRepository.AddCustomer(entity);
