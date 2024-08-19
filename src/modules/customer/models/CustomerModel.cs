@@ -25,7 +25,7 @@ public class CustomerModel
         };
     }
 
-    public static Customer ToEntity(TodoRequestBodyUpdateMobileNumber customer)
+    public static Customer ToEntity(CustomerRequestBodyUpdateMobileNumber customer)
     {
         return new Customer
         {

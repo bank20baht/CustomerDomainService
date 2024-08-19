@@ -10,7 +10,7 @@ public class CustomerRequestBody
     public string mobile_number { get; set; } = null!;
 }
 
-public class TodoRequestBodyUpdateMobileNumber
+public class CustomerRequestBodyUpdateMobileNumber
 {
     public string mobile_number { get; set; } = null!;
 }

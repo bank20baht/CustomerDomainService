@@ -3,6 +3,7 @@ using CustomerDomainService.Entity;
 using CustomerDomainService.IRepository;
 using Microsoft.EntityFrameworkCore;
 
+namespace CustomerDomainService.Repository;
 public class CustomerRepository : ICustomerRepository
 {
     private readonly ApplicationDbContext _dbContext;
@@ -11,7 +12,7 @@ public class CustomerRepository : ICustomerRepository
         _dbContext = dbContext;
     }
 
-    public async Task<string?> AddCustomer(Customer customer)
+    public async Task<string> AddCustomer(Customer customer)
     {
         var entry = await _dbContext.Customers.AddAsync(customer);
         await _dbContext.SaveChangesAsync();
