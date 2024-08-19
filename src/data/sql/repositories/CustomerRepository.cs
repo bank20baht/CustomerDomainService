@@ -10,14 +10,22 @@ public class CustomerRepository : ICustomerRepository
     {
         _dbContext = dbContext;
     }
-    public Task<string?> AddCustomer()
+
+    public async Task<string?> AddCustomer(Customer customer)
     {
-        throw new NotImplementedException();
+        var entry = await _dbContext.Customers.AddAsync(customer);
+        await _dbContext.SaveChangesAsync();
+
+        return $"create {entry.Entity.id} successful";
     }
 
-    public Task<string?> DeleteCustomer()
+    public async Task<string?> DeleteCustomer(Guid id)
     {
-        throw new NotImplementedException();
+        Customer removeCustomer = new Customer() { id = id };
+        _dbContext.Customers.Remove(removeCustomer);
+        await _dbContext.SaveChangesAsync();
+
+        return $"delete {removeCustomer.id} successful";
     }
 
     public async Task<Customer?> GetCustomer(Guid id)
@@ -30,13 +38,36 @@ public class CustomerRepository : ICustomerRepository
         return await _dbContext.Customers.ToListAsync();
     }
 
-    public Task<string?> UpdateCustomer()
+    public async Task<string?> UpdateCustomer(Guid id, Customer customer)
     {
-        throw new NotImplementedException();
+        var existingCustomer = await _dbContext.Customers.FirstOrDefaultAsync(u => u.id == id);
+        if (existingCustomer == null)
+        {
+            return null;
+        }
+        existingCustomer.first_name = customer.first_name;
+        existingCustomer.last_name = customer.last_name;
+        existingCustomer.address = customer.address;
+        existingCustomer.mobile_number = customer.mobile_number;
+
+        _dbContext.Customers.Update(existingCustomer);
+        await _dbContext.SaveChangesAsync();
+        return $"update {existingCustomer.id} successful";
+
     }
 
-    public Task<string?> UpdateMobileCustomer()
+    public async Task<string?> UpdateMobileCustomer(Guid id, Customer customerMobile)
     {
-        throw new NotImplementedException();
+        var existingCustomer = await _dbContext.Customers.FirstOrDefaultAsync(u => u.id == id);
+        if (existingCustomer == null)
+        {
+            return null;
+        }
+
+        existingCustomer.mobile_number = customerMobile.mobile_number;
+
+        _dbContext.Customers.Update(existingCustomer);
+        await _dbContext.SaveChangesAsync();
+        return $"update {existingCustomer.id} successful";
     }
 }
