@@ -89,7 +89,7 @@ public static class CustomerController
             try
             {
                 var response = await customerService.DeleteCustomer(id);
-                return Results.Json("response", statusCode: StatusCodes.Status200OK);
+                return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
             catch (Exception ex)
             {
