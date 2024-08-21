@@ -2,6 +2,9 @@ using CustomerDomainService.Controller;
 using CustomerDomainService.Repository;
 using CustomerDomainService.Service;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
+using System.Reflection;
+using CustomerDomainService.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +15,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MS_SQL_URL"));
 });
 
-builder.Services.AddScoped<CustomerRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<CustomerService>();
-
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
