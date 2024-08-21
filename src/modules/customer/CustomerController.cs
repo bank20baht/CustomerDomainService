@@ -97,5 +97,37 @@ public static class CustomerController
                 return HttpError.InternalServerError();
             }
         });
+
+        customerRoutes.MapGet("/test-cancellationToken", async (int number = 0, CancellationToken cancellationToken = default) =>
+        {
+            try
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    await Task.Delay(1000, cancellationToken);
+                    Console.WriteLine($"*** Task is running: {number} ***");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString(), "Error occurred while running the task.");
+            }
+        });
+
+        customerRoutes.MapGet("/test-not-cancellationToken", async (int number = 0) =>
+        {
+            try
+            {
+                for (int i = 0; i < 30; i++)
+                {
+                    await Task.Delay(1000);
+                    Console.WriteLine($"{i} *** Task is running: {number} ***");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString(), "Error occurred while running the task.");
+            }
+        });
     }
 }
