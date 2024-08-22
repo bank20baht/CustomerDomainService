@@ -1,6 +1,5 @@
 using CustomerDomainService.Controller;
 using CustomerDomainService.Repository;
-using CustomerDomainService.Service;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Reflection;
@@ -16,7 +15,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<CustomerService>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
