@@ -1,7 +1,7 @@
 
 using CustomerDomainService.Dto;
-using CustomerDomainService.Service;
 using CustomerDomainService.Utils;
+using MediatR;
 namespace CustomerDomainService.Controller;
 
 public static class CustomerController
@@ -10,11 +10,11 @@ public static class CustomerController
     {
         var customerRoutes = routes.MapGroup("/customer");
 
-        customerRoutes.MapGet("", async (CustomerService customerService) =>
+        customerRoutes.MapGet("", async (IMediator mediator) =>
         {
             try
             {
-                var response = await customerService.ListConsumerAsync();
+                var response = await mediator.Send(new ListCustomerQuery());
                 return Results.Ok(response);
             }
             catch (Exception ex)
@@ -24,12 +24,12 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapGet("{id:Guid}", async (Guid id, CustomerService customerService) =>
+        customerRoutes.MapGet("{id:Guid}", async (Guid id, IMediator mediator) =>
         {
 
             try
             {
-                var response = await customerService.GetCustomerAsync(id);
+                var response = await mediator.Send(new GetCustomerQuery(id));
                 return Results.Ok(response);
             }
             catch (Exception ex)
@@ -39,11 +39,11 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapPost("", async (CustomerRequestBody customer, CustomerService customerService) =>
+        customerRoutes.MapPost("", async (CustomerRequestBody customer, IMediator mediator) =>
         {
             try
             {
-                var response = await customerService.CreateConsumer(customer);
+                var response = await mediator.Send(new AddCustomerCommand(customer));
                 return Results.Json(response, statusCode: StatusCodes.Status201Created);
             }
             catch (Exception ex)
@@ -53,12 +53,12 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapPut("{id:Guid}", async (Guid id, CustomerRequestBody customer, CustomerService customerService) =>
+        customerRoutes.MapPut("{id:Guid}", async (Guid id, CustomerRequestBody customer, IMediator mediator) =>
         {
 
             try
             {
-                var response = await customerService.UpdateCustomerAsync(id, customer);
+                var response = await mediator.Send(new UpdateCustomerCommand(id, customer));
 
                 return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
@@ -69,26 +69,26 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapPatch("{id:Guid}", async (Guid id, CustomerRequestBodyUpdateMobileNumber mobileNumber, CustomerService customerService) =>
+        customerRoutes.MapPatch("{id:Guid}", async (Guid id, CustomerRequestBodyUpdateMobileNumber mobileNumber, IMediator mediator) =>
         {
 
             try
             {
-                var response = await customerService.UpdateCustomerMobileNumberAsync(id, mobileNumber);
+                var response = await mediator.Send(new UpdateCustomerMobileNumberCommand(id, mobileNumber));
                 return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex);
                 return HttpError.InternalServerError();
             }
         });
 
-        customerRoutes.MapDelete("{id:Guid}", async (Guid id, CustomerService customerService) =>
+        customerRoutes.MapDelete("{id:Guid}", async (Guid id, IMediator mediator) =>
         {
             try
             {
-                var response = await customerService.DeleteCustomer(id);
+                var response = await mediator.Send(new DeleteCustomerCommand(id));
                 return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
             catch (Exception ex)
