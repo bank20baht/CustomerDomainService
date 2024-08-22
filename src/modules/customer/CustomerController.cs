@@ -39,19 +39,19 @@ public static class CustomerController
             }
         });
 
-        // customerRoutes.MapPost("", async (CustomerRequestBody customer, IMediator mediator) =>
-        // {
-        //     try
-        //     {
-        //         var response = await customerService.CreateConsumer(customer);
-        //         return Results.Json(response, statusCode: StatusCodes.Status201Created);
-        //     }
-        //     catch (Exception ex)
-        //     {
+        customerRoutes.MapPost("", async (CustomerRequestBody customer, IMediator mediator) =>
+        {
+            try
+            {
+                var response = await mediator.Send(new AddCustomerCommand(customer));
+                return Results.Json(response, statusCode: StatusCodes.Status201Created);
+            }
+            catch (Exception ex)
+            {
 
-        //         return HttpError.InternalServerError();
-        //     }
-        // });
+                return HttpError.InternalServerError();
+            }
+        });
 
         // customerRoutes.MapPut("{id:Guid}", async (Guid id, CustomerRequestBody customer, IMediator mediator) =>
         // {
