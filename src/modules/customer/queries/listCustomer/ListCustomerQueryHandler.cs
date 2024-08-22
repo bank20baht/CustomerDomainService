@@ -6,16 +6,16 @@ using MediatR;
 
 public class ListCustomerQueryHandler : IRequestHandler<ListCustomerQuery, List<Customer>>
 {
-    private readonly ICustomerRepository _repository;
+    private readonly ICustomerRepository _customerRepository;
 
-    public ListCustomerQueryHandler(ICustomerRepository repository)
+    public ListCustomerQueryHandler(ICustomerRepository customerRepository)
     {
-        _repository = repository;
+        _customerRepository = customerRepository;
     }
 
     public async Task<List<Customer>> Handle(ListCustomerQuery request, CancellationToken cancellationToken)
     {
-        var customer = await _repository.ListCustomer();
+        var customer = await _customerRepository.ListCustomer();
         return customer;
     }
 }

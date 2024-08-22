@@ -84,18 +84,18 @@ public static class CustomerController
         //     }
         // });
 
-        // customerRoutes.MapDelete("{id:Guid}", async (Guid id, IMediator mediator) =>
-        // {
-        //     try
-        //     {
-        //         var response = await customerService.DeleteCustomer(id);
-        //         return Results.Json(response, statusCode: StatusCodes.Status200OK);
-        //     }
-        //     catch (Exception ex)
-        //     {
+        customerRoutes.MapDelete("{id:Guid}", async (Guid id, IMediator mediator) =>
+        {
+            try
+            {
+                var response = await mediator.Send(new DeleteCustomerCommand(id));
+                return Results.Json(response, statusCode: StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
 
-        //         return HttpError.InternalServerError();
-        //     }
-        // });
+                return HttpError.InternalServerError();
+            }
+        });
     }
 }

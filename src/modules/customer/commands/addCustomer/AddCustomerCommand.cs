@@ -3,4 +3,4 @@
 using CustomerDomainService.Dto;
 using MediatR;
 
-public record AddCustomerCommand(CustomerRequestBody body) : IRequest<string>;
+public record AddCustomerCommand(CustomerRequestBody Body) : IRequest<string>;
