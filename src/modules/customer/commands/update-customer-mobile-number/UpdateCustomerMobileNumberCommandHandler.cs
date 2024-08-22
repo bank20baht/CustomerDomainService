@@ -1,5 +1,3 @@
-
-
 using CustomerDomainService.IRepository;
 using CustomerDomainService.Models;
 using MediatR;
