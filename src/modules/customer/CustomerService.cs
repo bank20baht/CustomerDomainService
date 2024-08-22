@@ -15,17 +15,6 @@ public class CustomerService
         _customerRepository = customerRepository;
     }
 
-    public async Task<string> UpdateCustomerAsync(Guid id, CustomerRequestBody customer)
-    {
-        var entity = CustomerModel.ToEntity(customer);
-        var updateCustomer = await _customerRepository.UpdateCustomer(id, entity);
-        if (updateCustomer == null)
-        {
-            return "can not update";
-        }
-        return updateCustomer;
-    }
-
     public async Task<string> UpdateCustomerMobileNumberAsync(Guid id, CustomerRequestBodyUpdateMobileNumber mobileNumber)
     {
         var entity = CustomerModel.ToEntity(mobileNumber);
@@ -37,13 +26,4 @@ public class CustomerService
         return updateMobileNumber;
     }
 
-    public async Task<string> DeleteCustomer(Guid id)
-    {
-        var deleteCustomer = await _customerRepository.DeleteCustomer(id);
-        if (deleteCustomer == null)
-        {
-            return "can not delete customer";
-        }
-        return deleteCustomer;
-    }
 }
