@@ -18,7 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-builder.Services.AddValidatorsFromAssemblyContaining<AddCommandValidator>(); // Register validators
+builder.Services.AddValidatorsFromAssemblyContaining<AddCustomerCommandValidator>(); // Register validators
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 

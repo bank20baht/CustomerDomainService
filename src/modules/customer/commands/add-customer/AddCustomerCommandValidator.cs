@@ -3,9 +3,9 @@ using System.Xml.Serialization;
 using FluentValidation;
 using Microsoft.OpenApi.Expressions;
 
-public class AddCommandValidator : AbstractValidator<AddCustomerCommand>
+public class AddCustomerCommandValidator : AbstractValidator<AddCustomerCommand>
 {
-    public AddCommandValidator()
+    public AddCustomerCommandValidator()
     {
         RuleFor(x => x.Body.first_name).NotEmpty().WithMessage("first_name cannot be empty");
         RuleFor(x => x.Body.last_name).NotEmpty().WithMessage("last_name cannot be empty");
