@@ -16,10 +16,10 @@ public class UpdateCustomerMobileNumberCommandHandler : IRequestHandler<UpdateCu
     {
         var entity = CustomerModel.ToEntity(request.Body);
         var updateMobileNumber = await _customerRepository.UpdateMobileCustomer(request.Id, entity, cancellationToken);
-        if (updateMobileNumber == null)
+        if (updateMobileNumber == false)
         {
             return "can not update mobile number";
         }
-        return updateMobileNumber;
+        return $"Update Customer Mobile Number id {request.Id} successful";
     }
 }

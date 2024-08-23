@@ -15,10 +15,10 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
     {
         var entity = CustomerModel.ToEntity(request.Body);
         var updateCustomer = await _customerRepository.UpdateCustomer(request.Id, entity, cancellationToken);
-        if (updateCustomer == null)
+        if (updateCustomer == false)
         {
             return "can not update";
         }
-        return updateCustomer;
+        return $"Update Customer id {request.Id} successful";
     }
 }

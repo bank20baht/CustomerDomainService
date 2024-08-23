@@ -11,90 +11,54 @@ public static class CustomerController
 
         customerRoutes.MapGet("", async (IMediator mediator) =>
         {
-            try
-            {
-                var response = await mediator.Send(new ListCustomerQuery(), cancellationToken);
-                return Results.Ok(response);
-            }
-            catch (Exception ex)
-            {
+            var response = await mediator.Send(new ListCustomerQuery(), cancellationToken);
+            return Results.Ok(response);
 
-                return HttpError.InternalServerError();
-            }
         });
 
         customerRoutes.MapGet("{id:Guid}", async (Guid id, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
-
-            try
+            var response = await mediator.Send(new GetCustomerQuery(id), cancellationToken);
+            if (response == null)
             {
-                var response = await mediator.Send(new GetCustomerQuery(id), cancellationToken);
-                return Results.Ok(response);
+                return Results.NotFound(new { error = $"Customer with ID {id} not found." });
             }
-            catch (Exception ex)
-            {
-
-                return HttpError.InternalServerError();
-            }
+            return Results.Ok(response);
         });
+
 
         customerRoutes.MapPost("", async (CustomerRequestBody customer, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
-            try
-            {
-                var response = await mediator.Send(new AddCustomerCommand(customer), cancellationToken);
-                return Results.Json(response, statusCode: StatusCodes.Status201Created);
-            }
-            catch (Exception ex)
-            {
 
-                return HttpError.InternalServerError();
-            }
+            var response = await mediator.Send(new AddCustomerCommand(customer), cancellationToken);
+            return Results.Json(response, statusCode: StatusCodes.Status201Created);
+
         });
 
         customerRoutes.MapPut("{id:Guid}", async (Guid id, CustomerRequestBody customer, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
 
-            try
-            {
-                var response = await mediator.Send(new UpdateCustomerCommand(id, customer), cancellationToken);
+            var response = await mediator.Send(new UpdateCustomerCommand(id, customer), cancellationToken);
 
-                return Results.Json(response, statusCode: StatusCodes.Status200OK);
-            }
-            catch (Exception ex)
-            {
+            return Results.Json(response, statusCode: StatusCodes.Status200OK);
 
-                return HttpError.InternalServerError();
-            }
         });
 
         customerRoutes.MapPatch("{id:Guid}", async (Guid id, CustomerRequestBodyUpdateMobileNumber mobileNumber, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
 
-            try
-            {
-                var response = await mediator.Send(new UpdateCustomerMobileNumberCommand(id, mobileNumber), cancellationToken);
-                return Results.Json(response, statusCode: StatusCodes.Status200OK);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return HttpError.InternalServerError();
-            }
+            var response = await mediator.Send(new UpdateCustomerMobileNumberCommand(id, mobileNumber), cancellationToken);
+            return Results.Json(response, statusCode: StatusCodes.Status200OK);
+
+
         });
 
         customerRoutes.MapDelete("{id:Guid}", async (Guid id, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
-            try
-            {
-                var response = await mediator.Send(new DeleteCustomerCommand(id), cancellationToken);
-                return Results.Json(response, statusCode: StatusCodes.Status200OK);
-            }
-            catch (Exception ex)
-            {
 
-                return HttpError.InternalServerError();
-            }
+            var response = await mediator.Send(new DeleteCustomerCommand(id), cancellationToken);
+            return Results.Json(response, statusCode: StatusCodes.Status200OK);
+
         });
     }
 }
