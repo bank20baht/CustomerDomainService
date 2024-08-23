@@ -1,6 +1,9 @@
 using CustomerDomainService.Entity;
 using CustomerDomainService.IRepository;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CustomerDomainService.Repository
@@ -8,30 +11,32 @@ namespace CustomerDomainService.Repository
     public class CustomerRepository : ICustomerRepository
     {
         private readonly ApplicationDbContext _dbContext;
+
         public CustomerRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<string> AddCustomer(Customer customer, CancellationToken cancellationToken)
+        public async Task<Guid> AddCustomer(Customer customer, CancellationToken cancellationToken)
         {
             var entry = await _dbContext.Customers.AddAsync(customer, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return $"Create {entry.Entity.id} successful";
+            return entry.Entity.id;
         }
 
-        public async Task<string?> DeleteCustomer(Guid id, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCustomer(Guid id, CancellationToken cancellationToken)
         {
             var customerToRemove = await _dbContext.Customers.FindAsync(id, cancellationToken);
             if (customerToRemove == null)
             {
-                return null;
+                return false;
             }
+
             _dbContext.Customers.Remove(customerToRemove);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return $"Delete {customerToRemove.id} successful";
+            return true;
         }
 
         public async Task<Customer?> GetCustomer(Guid id, CancellationToken cancellationToken)
@@ -44,13 +49,14 @@ namespace CustomerDomainService.Repository
             return await _dbContext.Customers.ToListAsync(cancellationToken);
         }
 
-        public async Task<string?> UpdateCustomer(Guid id, Customer customer, CancellationToken cancellationToken)
+        public async Task<bool> UpdateCustomer(Guid id, Customer customer, CancellationToken cancellationToken)
         {
             var existingCustomer = await _dbContext.Customers.FindAsync(id, cancellationToken);
             if (existingCustomer == null)
             {
-                return null;
+                return false;
             }
+
             existingCustomer.first_name = customer.first_name;
             existingCustomer.last_name = customer.last_name;
             existingCustomer.address = customer.address;
@@ -58,22 +64,24 @@ namespace CustomerDomainService.Repository
 
             _dbContext.Entry(existingCustomer).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return $"Update {existingCustomer.id} successful";
+
+            return true;
         }
 
-        public async Task<string?> UpdateMobileCustomer(Guid id, Customer customerMobile, CancellationToken cancellationToken)
+        public async Task<bool> UpdateMobileCustomer(Guid id, Customer customerMobile, CancellationToken cancellationToken)
         {
             var existingCustomer = await _dbContext.Customers.FindAsync(id, cancellationToken);
             if (existingCustomer == null)
             {
-                return null;
+                return false;
             }
 
             existingCustomer.mobile_number = customerMobile.mobile_number;
 
             _dbContext.Entry(existingCustomer).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return $"Update {existingCustomer.id} successful";
+
+            return true;
         }
     }
 }

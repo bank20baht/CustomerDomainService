@@ -14,6 +14,6 @@ public class AddCustomerCommandHandler : IRequestHandler<AddCustomerCommand, str
     {
         var entity = CustomerModel.ToEntity(request.Body);
         var newCustomer = await _customerRepository.AddCustomer(entity, cancellationToken);
-        return newCustomer;
+        return $"Create Customer id {newCustomer} successful";
     }
 }

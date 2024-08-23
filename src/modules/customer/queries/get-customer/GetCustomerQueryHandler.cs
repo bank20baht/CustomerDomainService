@@ -13,6 +13,10 @@ public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, Custome
     public async Task<Customer?> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetCustomer(request.Id, cancellationToken);
+        if (customer == null)
+        {
+            throw new NotFoundException($"Customer with ID {request.Id} not found.");
+        }
         return customer;
     }
 }
