@@ -5,7 +5,7 @@ namespace CustomerDomainService.Controller;
 
 public static class CustomerController
 {
-    public static void UseCustomerController(this IEndpointRouteBuilder routes)
+    public static void UseCustomerController(this IEndpointRouteBuilder routes, CancellationToken cancellationToken = default)
     {
         var customerRoutes = routes.MapGroup("/customer");
 
@@ -13,7 +13,7 @@ public static class CustomerController
         {
             try
             {
-                var response = await mediator.Send(new ListCustomerQuery());
+                var response = await mediator.Send(new ListCustomerQuery(), cancellationToken);
                 return Results.Ok(response);
             }
             catch (Exception ex)
@@ -23,12 +23,12 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapGet("{id:Guid}", async (Guid id, IMediator mediator) =>
+        customerRoutes.MapGet("{id:Guid}", async (Guid id, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
 
             try
             {
-                var response = await mediator.Send(new GetCustomerQuery(id));
+                var response = await mediator.Send(new GetCustomerQuery(id), cancellationToken);
                 return Results.Ok(response);
             }
             catch (Exception ex)
@@ -38,11 +38,11 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapPost("", async (CustomerRequestBody customer, IMediator mediator) =>
+        customerRoutes.MapPost("", async (CustomerRequestBody customer, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
             try
             {
-                var response = await mediator.Send(new AddCustomerCommand(customer));
+                var response = await mediator.Send(new AddCustomerCommand(customer), cancellationToken);
                 return Results.Json(response, statusCode: StatusCodes.Status201Created);
             }
             catch (Exception ex)
@@ -52,12 +52,12 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapPut("{id:Guid}", async (Guid id, CustomerRequestBody customer, IMediator mediator) =>
+        customerRoutes.MapPut("{id:Guid}", async (Guid id, CustomerRequestBody customer, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
 
             try
             {
-                var response = await mediator.Send(new UpdateCustomerCommand(id, customer));
+                var response = await mediator.Send(new UpdateCustomerCommand(id, customer), cancellationToken);
 
                 return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
@@ -68,12 +68,12 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapPatch("{id:Guid}", async (Guid id, CustomerRequestBodyUpdateMobileNumber mobileNumber, IMediator mediator) =>
+        customerRoutes.MapPatch("{id:Guid}", async (Guid id, CustomerRequestBodyUpdateMobileNumber mobileNumber, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
 
             try
             {
-                var response = await mediator.Send(new UpdateCustomerMobileNumberCommand(id, mobileNumber));
+                var response = await mediator.Send(new UpdateCustomerMobileNumberCommand(id, mobileNumber), cancellationToken);
                 return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
             catch (Exception ex)
@@ -83,11 +83,11 @@ public static class CustomerController
             }
         });
 
-        customerRoutes.MapDelete("{id:Guid}", async (Guid id, IMediator mediator) =>
+        customerRoutes.MapDelete("{id:Guid}", async (Guid id, IMediator mediator, CancellationToken cancellationToken = default) =>
         {
             try
             {
-                var response = await mediator.Send(new DeleteCustomerCommand(id));
+                var response = await mediator.Send(new DeleteCustomerCommand(id), cancellationToken);
                 return Results.Json(response, statusCode: StatusCodes.Status200OK);
             }
             catch (Exception ex)
