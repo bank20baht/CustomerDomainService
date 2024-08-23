@@ -15,7 +15,7 @@ public class UpdateCustomerMobileNumberCommandHandler : IRequestHandler<UpdateCu
     public async Task<string> Handle(UpdateCustomerMobileNumberCommand request, CancellationToken cancellationToken)
     {
         var entity = CustomerModel.ToEntity(request.Body);
-        var updateMobileNumber = await _customerRepository.UpdateMobileCustomer(request.Id, entity);
+        var updateMobileNumber = await _customerRepository.UpdateMobileCustomer(request.Id, entity, cancellationToken);
         if (updateMobileNumber == null)
         {
             return "can not update mobile number";

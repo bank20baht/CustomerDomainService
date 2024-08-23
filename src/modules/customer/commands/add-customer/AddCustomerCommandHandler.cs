@@ -13,7 +13,7 @@ public class AddCustomerCommandHandler : IRequestHandler<AddCustomerCommand, str
     public async Task<string> Handle(AddCustomerCommand request, CancellationToken cancellationToken)
     {
         var entity = CustomerModel.ToEntity(request.Body);
-        var newCustomer = await _customerRepository.AddCustomer(entity);
+        var newCustomer = await _customerRepository.AddCustomer(entity, cancellationToken);
         return newCustomer;
     }
 }

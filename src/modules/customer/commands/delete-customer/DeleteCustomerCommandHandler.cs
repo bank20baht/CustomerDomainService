@@ -13,7 +13,7 @@ public class deleteCustomerCommandHandler : IRequestHandler<DeleteCustomerComman
 
     public async Task<string> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {
-        var deleteCustomer = await _customerRepository.DeleteCustomer(request.Id);
+        var deleteCustomer = await _customerRepository.DeleteCustomer(request.Id, cancellationToken);
         if (deleteCustomer == null)
         {
             return "can not delete customer";

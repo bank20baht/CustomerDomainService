@@ -12,7 +12,7 @@ public class GetCustomerQueryHandler : IRequestHandler<GetCustomerQuery, Custome
     }
     public async Task<Customer?> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.GetCustomer(request.Id);
+        var customer = await _customerRepository.GetCustomer(request.Id, cancellationToken);
         return customer;
     }
 }

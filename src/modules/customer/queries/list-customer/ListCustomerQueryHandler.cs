@@ -13,7 +13,7 @@ public class ListCustomerQueryHandler : IRequestHandler<ListCustomerQuery, List<
 
     public async Task<List<Customer>> Handle(ListCustomerQuery request, CancellationToken cancellationToken)
     {
-        var customer = await _customerRepository.ListCustomer();
+        var customer = await _customerRepository.ListCustomer(cancellationToken);
         return customer;
     }
 }

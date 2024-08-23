@@ -14,7 +14,7 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
     public async Task<string> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         var entity = CustomerModel.ToEntity(request.Body);
-        var updateCustomer = await _customerRepository.UpdateCustomer(request.Id, entity);
+        var updateCustomer = await _customerRepository.UpdateCustomer(request.Id, entity, cancellationToken);
         if (updateCustomer == null)
         {
             return "can not update";
