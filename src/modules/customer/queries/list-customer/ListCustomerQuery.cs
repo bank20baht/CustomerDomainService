@@ -1,5 +1,3 @@
-
-
 using CustomerDomainService.Entity;
 using MediatR;
 

@@ -1,4 +1,3 @@
-
 namespace CustomerDomainService.Dto;
 
 public class CustomerRequestBody
