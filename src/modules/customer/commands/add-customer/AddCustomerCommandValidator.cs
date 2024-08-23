@@ -1,7 +1,5 @@
 
-using System.Xml.Serialization;
 using FluentValidation;
-using Microsoft.OpenApi.Expressions;
 
 public class AddCustomerCommandValidator : AbstractValidator<AddCustomerCommand>
 {
