@@ -5,8 +5,11 @@ using MediatR;
 using System.Reflection;
 using CustomerDomainService.IRepository;
 using FluentValidation;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.UseHttpClientMetrics();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,11 +47,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMetricServer();
+app.UseHttpMetrics();
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseCustomerController();
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
+
+app.MapGet("", () => "test prometheus");
 
 app.Run();
