@@ -10,40 +10,27 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-# services:
-#   customerdomainservice:
-#     image: ${DOCKER_REGISTRY-}customerdomainservice
-#     ports:
-#       - 8080:8080
-#     build:
-#       context: .
-#     environment:
-#       - ASPNETCORE_ENVIRONMENT=Development
-#       - ASPNETCORE_HTTP_PORTS=8080
-#     networks:
-#       - mynw
-#   prometheus:
-#     image: prom/prometheus
-#     ports:
-#       - "9090:9090"
-#     volumes:
-#       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-#     command:
-#       - "--config.file=/etc/prometheus/prometheus.yml"
-#     networks:
-#       - mynw
-#   grafana:
-#     image: grafana/grafana
-#     ports:
-#       - "3000:3000"
-#     environment:
-#       - GF_SECURITY_ADMIN_PASSWORD=admin
-#     volumes:
-#       - ./grafana:/var/lib/grafana
-#     depends_on:
-#       - prometheus
-#     networks:
-#       - mynw
-# networks:
-#   mynw:
+    networks:
+      - monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - monitoring
+    depends_on:
+      - prometheus
+
+networks:
+  monitoring:
