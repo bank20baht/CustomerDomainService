@@ -20,6 +20,17 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddValidatorsFromAssemblyContaining<AddCustomerCommandValidator>();
 
+// allow cors policy for develop only
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 //  MediatR pipeline behaviors
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
@@ -37,5 +48,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseCustomerController();
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.Run();

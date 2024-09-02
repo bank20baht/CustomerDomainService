@@ -1,5 +1,5 @@
 using CustomerDomainService.Dto;
-using CustomerDomainService.Utils;
+
 using MediatR;
 namespace CustomerDomainService.Controller;
 

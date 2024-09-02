@@ -1,12 +1,49 @@
-version: "3.1"
+version: "3.8"
 
 services:
-  sql-server:
-    image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+  customerdomainservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 3223:1433
+      - "5209:8080"
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=abcABC123
-    volumes:
-      - /var/opt/mssql
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+# services:
+#   customerdomainservice:
+#     image: ${DOCKER_REGISTRY-}customerdomainservice
+#     ports:
+#       - 8080:8080
+#     build:
+#       context: .
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#       - ASPNETCORE_HTTP_PORTS=8080
+#     networks:
+#       - mynw
+#   prometheus:
+#     image: prom/prometheus
+#     ports:
+#       - "9090:9090"
+#     volumes:
+#       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+#     command:
+#       - "--config.file=/etc/prometheus/prometheus.yml"
+#     networks:
+#       - mynw
+#   grafana:
+#     image: grafana/grafana
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       - GF_SECURITY_ADMIN_PASSWORD=admin
+#     volumes:
+#       - ./grafana:/var/lib/grafana
+#     depends_on:
+#       - prometheus
+#     networks:
+#       - mynw
+# networks:
+#   mynw:
+
