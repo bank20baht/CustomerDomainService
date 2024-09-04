@@ -1,9 +1,9 @@
 version: "3.8"
 
 services:
-  customerdomainservice:
+  customer-domain-service:
     build:
-      context: .
+      context: ./CustomerDomainService/
       dockerfile: Dockerfile
     ports:
       - "5209:8080"
