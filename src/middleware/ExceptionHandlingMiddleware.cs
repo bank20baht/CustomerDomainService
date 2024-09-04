@@ -1,3 +1,4 @@
+using CustomerDomainService.ApplicationErrors;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using System.Net;

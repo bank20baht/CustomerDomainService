@@ -1,3 +1,4 @@
+using CustomerDomainService.ApplicationErrors;
 using CustomerDomainService.Entity;
 using CustomerDomainService.IRepository;
 using MediatR;
