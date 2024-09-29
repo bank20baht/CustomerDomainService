@@ -8,14 +8,9 @@ using System.Threading.Tasks;
 
 namespace CustomerDomainService.Repository
 {
-    public class CustomerRepository : ICustomerRepository
+    public class CustomerRepository(ApplicationDbContext dbContext) : ICustomerRepository
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public CustomerRepository(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        private readonly ApplicationDbContext _dbContext = dbContext;
 
         public async Task<Guid> AddCustomer(Customer customer, CancellationToken cancellationToken)
         {

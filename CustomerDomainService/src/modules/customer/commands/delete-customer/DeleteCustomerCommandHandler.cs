@@ -1,15 +1,10 @@
 using CustomerDomainService.IRepository;
 using MediatR;
 
-public class deleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, string>
+public class deleteCustomerCommandHandler(ICustomerRepository customerRepository) : IRequestHandler<DeleteCustomerCommand, string>
 {
 
-    private readonly ICustomerRepository _customerRepository;
-
-    public deleteCustomerCommandHandler(ICustomerRepository customerRepository)
-    {
-        _customerRepository = customerRepository;
-    }
+    private readonly ICustomerRepository _customerRepository = customerRepository;
 
     public async Task<string> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
     {

@@ -2,15 +2,10 @@ using CustomerDomainService.IRepository;
 using CustomerDomainService.Models;
 using MediatR;
 
-public class UpdateCustomerMobileNumberCommandHandler : IRequestHandler<UpdateCustomerMobileNumberCommand, string>
+public class UpdateCustomerMobileNumberCommandHandler(ICustomerRepository customerRepository) : IRequestHandler<UpdateCustomerMobileNumberCommand, string>
 {
 
-    private readonly ICustomerRepository _customerRepository;
-
-    public UpdateCustomerMobileNumberCommandHandler(ICustomerRepository customerRepository)
-    {
-        _customerRepository = customerRepository;
-    }
+    private readonly ICustomerRepository _customerRepository = customerRepository;
 
     public async Task<string> Handle(UpdateCustomerMobileNumberCommand request, CancellationToken cancellationToken)
     {

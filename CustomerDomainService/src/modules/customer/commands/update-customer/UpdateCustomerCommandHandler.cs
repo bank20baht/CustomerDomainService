@@ -2,15 +2,11 @@ using CustomerDomainService.IRepository;
 using CustomerDomainService.Models;
 using MediatR;
 
-public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, string>
+public class UpdateCustomerCommandHandler(ICustomerRepository customerRepository) : IRequestHandler<UpdateCustomerCommand, string>
 {
 
-    private readonly ICustomerRepository _customerRepository;
+    private readonly ICustomerRepository _customerRepository = customerRepository;
 
-    public UpdateCustomerCommandHandler(ICustomerRepository customerRepository)
-    {
-        _customerRepository = customerRepository;
-    }
     public async Task<string> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
     {
         var entity = CustomerModel.ToEntity(request.Body);
